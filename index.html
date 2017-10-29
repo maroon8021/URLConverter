@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <link type="text/css" rel="stylesheet" href="css/style.css"/>
+
+  <title>URL Converter</title>
+</head>
+<body class="bg-body daily-report-publisher">
+  <div class="small-header"></div>
+  <div class="row">
+    <div class="col s12 bg-color-primary-blue">
+      <h3 class="header align-center white-text">URL Converter</h3>
+    </div>
+    <div class="bg-color-white">
+      <div class="col s12 card z-depth-3 space-for-card">
+        <ul class="tabs">
+        <li class="tab col s3"><a class="active"  href="#converter">Converter</a></li>
+        <li class="tab col s3"><a href="#settings">Settings</a></li>
+      </ul>
+      <div id="converter">
+        <div class="row">
+          <div class="section col s12" id="input-area">
+        </div>
+
+        <div class="row">
+          <button class="btn waves-effect waves-light align-center" id="convert-button" name="action">Convert
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </div>
+      </div>
+
+      <div id="settings">
+        <div class="row">
+          <div class="section col s12" id="plan">
+            <div class="row">
+            <div class="input-field">
+              <input id="plan-1" type="text" class="validate">
+              <label for="plan-1">Settings</label>
+            </div>
+            </div>
+        </div>
+
+        <div class="row">
+          <button class="btn waves-effect waves-light align-center" id="click" name="action">Submit
+            <i class="material-icons right">send</i>
+          </button>
+          <button class="btn waves-effect waves-light align-center" id="append" name="action">Append
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </div>
+      </div>
+        
+    </div>
+  </div>
+
+
+</body>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script>
+  window.Hammer = require('./lib/hammer.min.js')
+</script>
+<script src="jquery_after.js"></script>
+<script type="text/javascript" src="js/materialize.js"></script>
+<script src="renderer.js" charset="utf-8"></script>
+<!--
+<script src="index.js"></script>
+-->
+</html>

@@ -1,0 +1,34 @@
+.bg-body{
+	/*background-image: url(../img/bgair.JPG);*/
+	background-color: #E1E2E1;
+}
+
+.bg-color-white{
+	width: 90%;
+	background-color: #fff;
+	margin: 0 auto; 
+}
+
+.align-center{
+	text-align: center;
+}
+
+.small-header{
+	height: 20px;
+	width: 100%;
+	background-color: #004a9f;
+}
+
+.daily-report-publisher .bg-color-primary-blue{
+	background-color: #1675d1;
+	height: 100px;
+	width: 100%;
+}
+
+.space-for-card{
+	margin-top: 3%;
+}
+
+.daily-report-publisher .clear-icon{
+	padding-top: 20px;
+}
