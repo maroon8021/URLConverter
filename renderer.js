@@ -28,25 +28,44 @@ jsonfile.writeFile('test.json', { foo: 'aaa?', bar: 'bbb' }, {
 
 var array = [];
 for (key in settingsData){
-  array.push(settingsData[key]);
+  array.push(settingsData[key]);  
 }
+
+jQuery.each(array, function(index, item) {
+  var converter = new urlConverter(item);
+  converter.rendererElement(index)
+  
+});
 
 var urlConverter = function(options){
   this.title_ = options.['title'];
   this.converURL_ = options['conver-URL'];
   this.targetText_ = options['targetText'];
-
-  
 }
 
-jQuery.each(array, function(i, item) {
+urlConverter.prototype.rendererElement(index){
   var $inputElement = ('<div class="row">'
     + '<div class="input-field">'
-    + '<input id="converter-'+i+'" type="text" class="validate">'
-    + '<label for="converter-'+i+'">TO '+item.title+'</label>'
+    + '<input id="converter-'+index+'" type="text" class="validate">'
+    + '<label for="converter-'+index+'">TO '+this.title+'</label>'
     + '</div>'
     + '</div>');
-});
+
+  $('#input-area').append($inputElement);
+}
+
+urlConverter.prototype.bindEvent(index){
+  var $inputElement = ('<div class="row">'
+    + '<div class="input-field">'
+    + '<input id="converter-'+index+'" type="text" class="validate">'
+    + '<label for="converter-'+index+'">TO '+this.title+'</label>'
+    + '</div>'
+    + '</div>');
+
+  $('#input-area').append($inputElement);
+}
+
+
 
 /* $elements  */
 
