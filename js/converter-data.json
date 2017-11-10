@@ -2,13 +2,13 @@
 	"iwantu" : {
 		"title" : "iwantu",
 		"order" : 1 ,
-		"conver-URL" : "iwantu.internal.worksap.com:8083",
-		"target-text" : "localhost:8080"
+		"convertURL" : "iwantu.internal.worksap.com:8083",
+		"targetText" : "localhost:8080"
 	},
 	"localhost" : {
 		"title" : "localhost",
 		"order" : 2 ,
-		"conver-URL" : "localhost:8080",
-		"target-text" : "iwantu.internal.worksap.com:8083"
+		"convertURL" : "localhost:8080",
+		"targetText" : "iwantu.internal.worksap.com:8083"
 	}
 }

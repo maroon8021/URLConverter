@@ -11,9 +11,12 @@ var fs = require('fs');
 var jsonfile = require('jsonfile');
 
 let settingsData;
-fs.readFile('js/converter-data.json', 'utf-8', function(err, text){
+settingsData = JSON.parse(fs.readFileSync('js/converter-data.json', 'utf-8'));
+/*
+fs.readFileSync('js/converter-data.json', 'utf-8', function(err, text){
   settingsData = JSON.parse(text);
 })
+*/
 
 /*
 jsonfile.writeFile('test.json', { foo: 'aaa?', bar: 'bbb' }, {
@@ -24,46 +27,79 @@ jsonfile.writeFile('test.json', { foo: 'aaa?', bar: 'bbb' }, {
 });
 */
 
-/* Status */
-
-var array = [];
-for (key in settingsData){
-  array.push(settingsData[key]);  
-}
-
-jQuery.each(array, function(index, item) {
-  var converter = new urlConverter(item);
-  converter.rendererElement(index)
-  
-});
-
-var urlConverter = function(options){
-  this.title_ = options.['title'];
-  this.converURL_ = options['conver-URL'];
+// ここは先に規定しておかないと実行されない
+function urlConverter(options){
+  this.title_ = options['title'];
+  this.converURL_ = options['convertURL'];
   this.targetText_ = options['targetText'];
 }
 
-urlConverter.prototype.rendererElement(index){
+urlConverter.prototype.rendererElement = function(index){
   var $inputElement = ('<div class="row">'
     + '<div class="input-field">'
     + '<input id="converter-'+index+'" type="text" class="validate">'
-    + '<label for="converter-'+index+'">TO '+this.title+'</label>'
+    + '<label for="converter-'+index+'">TO '+this.title_+'</label>'
     + '</div>'
     + '</div>');
 
   $('#input-area').append($inputElement);
 }
 
-urlConverter.prototype.bindEvent(index){
-  var $inputElement = ('<div class="row">'
-    + '<div class="input-field">'
-    + '<input id="converter-'+index+'" type="text" class="validate">'
-    + '<label for="converter-'+index+'">TO '+this.title+'</label>'
-    + '</div>'
-    + '</div>');
-
-  $('#input-area').append($inputElement);
+urlConverter.prototype.bindEvent = function(index){
+  this.bindClickEvent(index);
+  this.bindInputEvent(index);
 }
+
+urlConverter.prototype.bindClickEvent = function(index){
+  var self = this;
+  $('#convert-button').on('click',function(e){
+    var originalUrl = $('#converter-'+index).val();
+
+    if(originalUrl===""){
+      return;
+    }
+
+    var targetText = new RegExp(self.targetText_);
+    var replaceText = self.converURL_
+    var replacedUrl = originalUrl.replace( targetText , replaceText ) ;
+    if(replacedUrl.match(replaceText)){
+      var head = "http://";
+      if(!replacedUrl.match(head)){
+        replacedUrl = head+replacedUrl;
+      }
+      shell.openExternal(replacedUrl);
+    }});
+}
+
+urlConverter.prototype.bindInputEvent = function(index){
+  $('#converter-'+index).on('change',function(){
+    var currentElement = $('#converter-'+index)[0];
+    for (var i = 0; i < dataLength; i++) {
+      var inputElement = $('#converter-'+i)[0];
+      if(currentElement!==inputElement){
+        $('#converter-'+i).val('');
+        $('#converter-'+i).blur();
+      }
+    }
+  });
+}
+
+
+/* Status */
+
+var array = [];
+
+Object.keys(settingsData).forEach(function(key) {
+  array.push(settingsData[key]);
+}, settingsData);
+
+const dataLength = Object.keys(settingsData).length;
+array.forEach(function(item,index){
+  var converter = new urlConverter(item);
+  converter.rendererElement(index);
+  converter.bindEvent(index);
+});
+
 
 
 
@@ -77,6 +113,7 @@ urlConverter.prototype.bindEvent(index){
 
 /****/
 
+/*
 $('#convert-button').on('click',function(){
   var originalUrl = $('#converter-1').val();
   if(originalUrl===""){
@@ -89,6 +126,7 @@ $('#convert-button').on('click',function(){
     shell.openExternal(replacedUrl);
   }
 });
+*/
 
 $('#plan').on('keydown','.last_input',function(e){
   if(e.keyCode === 13) {
@@ -97,6 +135,7 @@ $('#plan').on('keydown','.last_input',function(e){
   }
   });
 
+/*
 $(document).on('click',function(e){
   var $targetElement = e.target.parentElement;
   if($($targetElement).hasClass('clear-icon')){
@@ -109,6 +148,7 @@ $(document).on('click',function(e){
     return;
   }
   });
+  */
 
 $('#plan').on('focus','.input-element',function(e){
   if(isFocus_){
@@ -173,21 +213,3 @@ function writeFile(path, data) {
   });
 }
 
-
-function removeCancelIcon(){
-  $('.clear-icon').remove();
-  isFocus_ = false;
-}
-
-/*
-TODO
-・バツボタン
-・Enterで行追加 -> EventBind
-・保存 -> 出力
-*/
-
-/*
-問題点
-blurが先に発火して、キャンセルボタンのイベントが発火しない
-blur -> focus-outを観測したい  
-*/
